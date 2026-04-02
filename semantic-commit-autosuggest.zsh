@@ -52,6 +52,10 @@ _git_build_prefix() {
     echo -E "$_SEMANTIC_COMMIT_CACHE_PREFIX"
     return 0
   fi
+  # Invalidate cache before recomputing
+  _SEMANTIC_COMMIT_CACHE_DIR=
+  _SEMANTIC_COMMIT_CACHE_BRANCH=
+  _SEMANTIC_COMMIT_CACHE_PREFIX=
   type=$(_git_semantic_type_from_branch "$branch") || return 1
   ticket=$(_git_ticket_from_branch "$branch")
   if [[ -n "$ticket" ]]; then
