@@ -4,12 +4,18 @@ typeset -g _SEMANTIC_COMMIT_CACHE_PREFIX=
 
 _git_is_commit_command() {
   local buffer="$1"
-  [[ "$buffer" =~ '^(git[[:space:]]+commit|gc)([[:space:]].*)?-m[[:space:]]+"[^"]*$' ]]
+  [[ "$buffer" =~ '^(git[[:space:]]+commit|gc)([[:space:]].*)?-m[[:space:]]+"[^"]*$' ]] && return 0
+  [[ "$buffer" =~ $'^(git[[:space:]]+commit|gc)([[:space:]].*)?-m[[:space:]]*\'[^\']*$' ]] && return 0
+  return 1
 }
 
 _git_extract_commit_message() {
   local buffer="$1"
   if [[ "$buffer" =~ '-m[[:space:]]+"([^"]*)$' ]]; then
+    echo -E "${match[1]}"
+    return 0
+  fi
+  if [[ "$buffer" =~ $'-m[[:space:]]*\'([^\']*)$' ]]; then
     echo -E "${match[1]}"
     return 0
   fi

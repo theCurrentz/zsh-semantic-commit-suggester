@@ -22,7 +22,8 @@ Keep `_git_commit_prefix_suggest` before `history` so branch-based text is tried
 - Suggests only the **missing** characters after the opening double quote (e.g. `feat: ` on a `feat/...` branch).
 - No suggestion outside a git work tree, or on detached `HEAD`.
 - Caches the last computed prefix per directory and branch so `git` is not run on every keystroke.
-- Does not activate for `git commit -m '...'` (double-quoted `-m` only).
+- Double-quoted messages: `... -m "…` (space before `"` as in the usual form).
+- Single-quoted messages: `... -m'…` or `... -m '…` (optional space before `'`).
 
 ## Branch → type
 
