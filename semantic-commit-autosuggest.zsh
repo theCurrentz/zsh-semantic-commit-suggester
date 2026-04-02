@@ -40,7 +40,7 @@ _git_ticket_from_branch() {
   # Match Jira-style ticket: PROJECT-123 at the start of the remainder
   # PROJECT must be all-alpha (case-insensitive), followed by -DIGITS
   if [[ "$rest" =~ '^([A-Za-z]+-[0-9]+)(-|$)' ]]; then
-    echo "${match[1]:u}"
+    echo "${match[1]:l}"
   fi
 }
 
