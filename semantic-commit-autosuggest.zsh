@@ -49,7 +49,7 @@ _git_build_prefix() {
   echo -E "$prefix"
 }
 
-_git_commit_prefix_suggest() {
+_zsh_autosuggest_strategy_git_commit_prefix() {
   local buffer="$BUFFER" typed prefix suffix
   [[ $CURSOR -ne ${#BUFFER} ]] && return 1
   _git_is_commit_command "$buffer" || return 1

@@ -10,7 +10,7 @@ Clone or copy `semantic-commit-autosuggest.zsh` onto your machine and source it 
 source /path/to/zsh-autosuggestions.zsh
 source /path/to/semantic-commit-autosuggest.zsh
 ZSH_AUTOSUGGEST_STRATEGY=(
-  _git_commit_prefix_suggest
+  git_commit_prefix
   history
 )
 ```
