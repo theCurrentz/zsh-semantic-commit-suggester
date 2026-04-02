@@ -29,6 +29,17 @@ Keep `_git_commit_prefix_suggest` before `history` so branch-based text is tried
 
 The first path segment (e.g. `feat/foo` → `feat`) or first segment before `-` on a flat name is lowercased and mapped: `feature` → `feat`, `bugfix` / `hotfix` → `fix`. If it is already a known Conventional Commits type (`feat`, `fix`, `docs`, …), that value is used. Otherwise no prefix is suggested.
 
+## Jira ticket extraction
+
+If the branch name contains a Jira-style ticket (`PROJECT-123`), it is included as a scope:
+
+| Branch | Suggested prefix |
+|---|---|
+| `feat/AFW-1124-fix-thing` | `feat(AFW-1124): ` |
+| `feat-AFW-1124-fix-thing` | `feat(AFW-1124): ` |
+| `fix/cool-thing` | `fix: ` |
+| `feat-GENERATE-1337-thing` | `feat(GENERATE-1337): ` |
+
 ## License
 
 GPL-3.0 — see [LICENSE](LICENSE).
