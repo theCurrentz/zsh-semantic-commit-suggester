@@ -50,14 +50,11 @@ _git_build_prefix() {
 }
 
 _zsh_autosuggest_strategy_git_commit_prefix() {
-  local buffer="$BUFFER" typed prefix suffix
-  [[ $CURSOR -ne ${#BUFFER} ]] && return 1
+  local buffer="$1" typed prefix
   _git_is_commit_command "$buffer" || return 1
   typed=$(_git_extract_commit_message "$buffer") || return 1
   prefix=$(_git_build_prefix) || return 1
   [[ "$prefix" == "$typed"* ]] || return 1
-  suffix="${prefix#$typed}"
-  [[ -n "$suffix" ]] || return 1
-  echo -E "$suffix"
-  return 0
+  [[ "$prefix" == "$typed" ]] && return 1
+  typeset -g suggestion="${buffer}${prefix#$typed}"
 }
