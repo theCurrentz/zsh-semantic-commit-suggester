@@ -70,11 +70,30 @@ _git_build_prefix() {
 }
 
 _zsh_autosuggest_strategy_git_commit_prefix() {
-  local buffer="$1" typed prefix
+  local buffer="$1" typed prefix ticket branch_type user_type full_prefix
   _git_is_commit_command "$buffer" || return 1
   typed=$(_git_extract_commit_message "$buffer") || return 1
   prefix=$(_git_build_prefix) || return 1
-  [[ "$prefix" == "$typed"* ]] || return 1
-  [[ "$prefix" == "$typed" ]] && return 1
-  typeset -g suggestion="${buffer}${prefix#$typed}"
+
+  # If the branch prefix already matches what's typed, suggest the rest
+  if [[ "$prefix" == "$typed"* && "$prefix" != "$typed" ]]; then
+    typeset -g suggestion="${buffer}${prefix#$typed}"
+    return 0
+  fi
+
+  # If the user is typing a different commit type, still suggest the ticket scope.
+  # e.g. on feat-AFW-1124-thing, typing "fix" suggests "fix(afw-1124): "
+  ticket=$(_git_ticket_from_branch "$(git symbolic-ref -q --short HEAD 2>/dev/null)")
+  [[ -n "$ticket" ]] || return 1
+
+  # Check if typed text starts with a known commit type (or a prefix of one)
+  local known_types="feat fix docs style refactor perf test build ci chore revert"
+  for user_type in ${=known_types}; do
+    # User is mid-type: typed is a prefix of "type(ticket): "
+    full_prefix="${user_type}(${ticket}): "
+    if [[ "$full_prefix" == "$typed"* && "$full_prefix" != "$typed" ]]; then
+      typeset -g suggestion="${buffer}${full_prefix#$typed}"
+      return 0
+    fi
+  done
 }
