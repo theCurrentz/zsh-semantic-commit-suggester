@@ -1,0 +1,1 @@
+# zsh-semantic-commit-suggester
